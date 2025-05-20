@@ -1,0 +1,21 @@
+{
+  "name": "fullstack-firebase-app",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"yarn --cwd backend start\" \"yarn --cwd frontend dev\"",
+    "install:all": "yarn --cwd backend install && yarn --cwd frontend install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
