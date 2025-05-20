@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require("express");
 const cors = require("cors");
 const db = require("./firebase");
@@ -29,7 +31,7 @@ app.get("/employee", async (req, res) => {
 app.post("/add-employee", async (req, res) => {
 	try {
 		const employee = req.body;
-		console.log("employee", employee);
+		console.log("add employee", employee);
 		const docRef = await employeeCollection.add(employee);
 		res.status(201).send({ id: docRef.id });
 	} catch (err) {
