@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { getDepartment, getEmployees } from "./firebase/api";
-import axios from "./api/axios";
+import { getDepartment, getEmployees } from "../firebase/api";
+import axios from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Employee() {
 	const [employees, setEmployees] = useState([]);
+	const navigate = useNavigate();
 
 	const fetchEmployees = async () => {
 		const list = [];
@@ -42,15 +44,53 @@ export default function Employee() {
 		departmentId: "T2R2UmQQhN3aN9qP9NFM",
 		projects: [
 			{
-				name: "Proj3",
-				budget: 12000,
-				deadline: "2025-08-27T00:00:00.000Z",
+				name: "Project 13",
+				budget: 36000,
+				deadline: "2025-03-21T00:00:00.000Z",
+				start_date: "2024-04-06T00:00:00.000Z",
 			},
-			{
-				name: "Proj4",
-				budget: 15000,
-				deadline: "2025-09-15T00:00:00.000Z",
-			},
+			// {
+			// 	name: "Project 6",
+			// 	budget: 15000,
+			// 	deadline: "2025-09-15T00:00:00.000Z",
+			// 	start_date: "2025-03-10T00:00:00.000Z",
+			// },
+			// {
+			// 	name: "Project 7",
+			// 	budget: 18000,
+			// 	deadline: "2025-12-01T00:00:00.000Z",
+			// 	start_date: "2025-04-01T00:00:00.000Z",
+			// },
+			// {
+			// 	name: "Project 8",
+			// 	budget: 9500,
+			// 	deadline: "2025-07-15T00:00:00.000Z",
+			// 	start_date: "2025-01-20T00:00:00.000Z",
+			// },
+			// {
+			// 	name: "Project 9",
+			// 	budget: 22000,
+			// 	deadline: "2026-02-10T00:00:00.000Z",
+			// 	start_date: "2025-06-01T00:00:00.000Z",
+			// },
+			// {
+			// 	name: "Project 10",
+			// 	budget: 13500,
+			// 	deadline: "2025-11-20T00:00:00.000Z",
+			// 	start_date: "2025-03-15T00:00:00.000Z",
+			// },
+			// {
+			// 	name: "Project 11",
+			// 	budget: 17500,
+			// 	deadline: "2025-10-05T00:00:00.000Z",
+			// 	start_date: "2025-04-25T00:00:00.000Z",
+			// },
+			// {
+			// 	name: "Project 12",
+			// 	budget: 25000,
+			// 	deadline: "2026-03-01T00:00:00.000Z",
+			// 	start_date: "2025-07-10T00:00:00.000Z",
+			// },
 		],
 	};
 
@@ -93,7 +133,8 @@ export default function Employee() {
 						{employees.map((emp) => (
 							<div
 								key={emp.id}
-								className='bg-white p-6 rounded-2xl shadow hover:shadow-lg transition-shadow border border-gray-200 text-left'
+								className='bg-white p-6 rounded-2xl shadow hover:shadow-lg transition-shadow border border-gray-200 text-left cursor-pointer'
+								onClick={() => navigate(`/employee/${emp.id}/projects`)}
 							>
 								<h3 className='text-xl font-semibold text-gray-800 mb-1'>
 									{emp.first_name} {emp.last_name}
