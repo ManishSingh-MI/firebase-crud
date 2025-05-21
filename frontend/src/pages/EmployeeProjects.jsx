@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getEmployee, getProjects } from "../firebase/api";
+import { getDepartment, getEmployee, getProjects } from "../firebase/api";
 
 const EmployeeProjects = () => {
 	const { employeeId } = useParams();
+	const [employee, setEmployee] = useState({
+		first_name: "",
+		last_name: "",
+		department_name: "",
+	});
 	const [projects, setProjects] = useState([]);
 	const [lastDoc, setLastDoc] = useState(null);
 	const [total, setTotal] = useState(0);
@@ -15,6 +20,10 @@ const EmployeeProjects = () => {
 		if (loadMore) setLoadingMore(true);
 		setCurrentPage(currentPage + 1);
 		const employee = await getEmployee(employeeId);
+		setEmployee({
+			first_name: employee.first_name,
+			last_name: employee.last_name,
+		});
 		const rawDept = employee.department_id;
 		let departmentId = null;
 
@@ -23,6 +32,13 @@ const EmployeeProjects = () => {
 		} else if (rawDept?._key?.path?.segments) {
 			const segments = rawDept._key.path.segments;
 			departmentId = segments[segments.length - 1];
+		}
+
+		if (departmentId) {
+			const deptDoc = await getDepartment(departmentId);
+			if (deptDoc) {
+				setEmployee((prev) => ({ ...prev, department_name: deptDoc.name }));
+			}
 		}
 
 		const {
@@ -48,22 +64,25 @@ const EmployeeProjects = () => {
 	}, []);
 
 	return (
-		<div className='min-h-screen bg-gray-100 py-10 px-6'>
-			<h2 className='text-4xl font-extrabold text-gray-800 text-center mb-6'>
-				Employee Projects
-			</h2>
+		<div className='flex flex-col py-5 px-6 gap-6 w-full'>
+			<div className='flex gap-2 items-center text-gray-800'>
+				<h2 className='text-2xl font-extrabold  text-left'>
+					{employee.first_name} {employee.last_name}
+				</h2>
+				<span className='text-sm font-medium'>({employee.department_name})</span>
+			</div>
 
 			{projects?.length === 0 ? (
 				<p className='text-center text-gray-600 text-lg'>No projects found.</p>
 			) : (
 				<>
-					<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto'>
+					<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6  w-full max-w-6xl mx-auto'>
 						{(projects || []).map((project, index) => (
 							<div
 								key={index}
-								className='bg-white shadow-lg rounded-2xl p-6 transition hover:shadow-xl animate-fadeIn'
+								className='bg-white shadow-lg rounded-2xl p-5 transition hover:shadow-xl animate-fadeIn'
 							>
-								<h3 className='text-xl font-semibold text-gray-700 mb-2'>
+								<h3 className='text-lg font-semibold text-gray-700 mb-2'>
 									{project.name}
 								</h3>
 								<p className='text-gray-700 mb-1'>

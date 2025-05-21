@@ -110,9 +110,9 @@ export default function Employee() {
 	};
 
 	return (
-		<div className='min-h-screen bg-gray-50 py-10 px-6 w-full'>
+		<div className='py-5 px-6 w-full'>
 			<div className='rounded-3xl w-full'>
-				<div className='flex justify-between items-center mb-8'>
+				{/* <div className='flex justify-between items-center mb-8'>
 					<h2 className='text-3xl font-bold text-gray-800 text-center'>
 						Employee Records
 					</h2>
@@ -122,7 +122,7 @@ export default function Employee() {
 					>
 						Add Projects
 					</button>
-				</div>
+				</div> */}
 
 				{employees.length === 0 ? (
 					<p className='text-gray-500 text-center'>
